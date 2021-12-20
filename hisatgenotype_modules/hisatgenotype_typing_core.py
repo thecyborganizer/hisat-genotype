@@ -438,6 +438,7 @@ def typing(simulation,
             # Read alignments
             alignview_cmd = ["samtools", "view", alignment_fname]
             base_locus = 0
+            alignview_proc: subprocess.Popen[str] = ""
             if genotype_genome != "":
                 _, chr, left, right = ref_locus[:4]
                 alignview_cmd += ["%s:%d-%d" % (chr, left+1, right+1)]
@@ -463,7 +464,10 @@ def typing(simulation,
                                                 universal_newlines = True,
                                                 stdout = subprocess.PIPE,
                                                 stderr = open("/dev/null", 'w'))
-
+                for line in bamview_proc.stdout.read():
+                    print("a----{}----".format(line)) 
+                bamview_proc.stdout.seek(0)
+                print("2----------------{}------------- module".format(bamview_proc.stdout), file=sys.stderr)
                 sort_read_cmd = ["sort", "-k", "1,1", "-s"] # -s for stable sorting
                 alignview_proc = subprocess.Popen(sort_read_cmd,
                                                   universal_newlines = True,
@@ -471,15 +475,14 @@ def typing(simulation,
                                                   stdout = subprocess.PIPE,
                                                   stderr = open("/dev/null", 'w'))
             else:
-                print("2----------------{}------------- module".format(alignview_cmd), file=sys.stderr)
                 alignview_proc = subprocess.Popen(alignview_cmd,
                                                   universal_newlines = True,
                                                   stdout = subprocess.PIPE,
                                                   stderr = open("/dev/null", 'w'))
 
-            print("4--{}--".format(alignview_proc.stdout))
-            for line in alignview_proc.stdout.read():
-                print("3--{}--".format(line), file=sys.stderr)
+            outs, errs = alignview_proc.communicate()
+            alignview_proc_str = outs
+            print("3--{}--".format(alignview_proc_str))
             # List of nodes that represent alleles
             allele_vars = {}
             for _, var_id in gene_var_list:
@@ -805,7 +808,7 @@ def typing(simulation,
                 
                 # Cigar regular expression
                 cigar_re = re.compile('\d+\w')
-                for line in alignview_proc.stdout:
+                for line in alignview_proc_str:
                     if not complete["Align Return"]: # Confirm alingment return
                         complete["Align Return"] = True
                     line = line.strip()
@@ -1620,7 +1623,7 @@ def typing(simulation,
                 prev_read_id = None
                 prev_AS      = None
                 alleles      = set()
-                for line in alignview_proc.stdout:
+                for line in alignview_proc_str:
                     if not complete["Align Return"]: # Confirm alingment return
                         complete["Align Return"] = True
                     cols = line[:-1].split()
