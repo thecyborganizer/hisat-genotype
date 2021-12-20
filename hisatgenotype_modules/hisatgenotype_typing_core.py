@@ -430,8 +430,10 @@ def typing(simulation,
                 gene_var_list.insert(var_idx, [var_pos, var_id])                
                 return var_id, novel_var_count + 1
 
+            print("got here 1")
             if not os.path.exists(alignment_fname + ".bai"):
                 os.system("samtools index %s" % alignment_fname)
+            print("got here 2")
             # Read alignments
             alignview_cmd = ["samtools", "view", alignment_fname]
             base_locus = 0
@@ -455,6 +457,7 @@ def typing(simulation,
                 else:
                     pair_interdist = None
 
+                print("1----------------{}------------- module".format(alignview_cmd))
                 bamview_proc = subprocess.Popen(alignview_cmd,
                                                 universal_newlines = True,
                                                 stdout = subprocess.PIPE,
@@ -467,11 +470,13 @@ def typing(simulation,
                                                   stdout = subprocess.PIPE,
                                                   stderr = open("/dev/null", 'w'))
             else:
+                print("2----------------{}------------- module".format(alignview_cmd))
                 alignview_proc = subprocess.Popen(alignview_cmd,
                                                   universal_newlines = True,
                                                   stdout = subprocess.PIPE,
                                                   stderr = open("/dev/null", 'w'))
 
+            print("3----------------{}------------- module".format(alignview_proc.stdout))
             # List of nodes that represent alleles
             allele_vars = {}
             for _, var_id in gene_var_list:
