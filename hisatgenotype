@@ -365,6 +365,8 @@ def typing_process(args):
     else:
         if len(args.base_fname) != 1:
             only_locus_list = args.only_locus_list.split(',')
+    args.verbose=True
+    args.verbose_level = 1
 
     if args.verbose and args.verbose_level == 0:
         args.verbose_level = 1

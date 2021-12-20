@@ -288,6 +288,7 @@ def typing(simulation,
     complete    = {"Init Align"    : False,
                    "Locus Process" : False,
                    "Align Return"  : False} # list of completed tasks
+    print("got here a");
     base_fname  = full_path_base_fname.split("/")[-1]
     core_fid    = "" # May add to bottom of options
     report_base = '%s/%s-%s.' % (out_dir, output_base, base_fname)
