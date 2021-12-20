@@ -188,6 +188,9 @@ def reads_from_bam(bam_fname,
                                       stdout=subprocess.PIPE,
                                       stderr=open("/dev/null", 'w'))
 
+    print("------------------{}----------------".format(alignview_proc.stdout))
+
+
     prev_read_name = ""
     extract_read   = False
     read1          = []
