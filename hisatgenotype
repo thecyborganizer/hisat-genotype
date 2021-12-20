@@ -704,6 +704,7 @@ if __name__ == '__main__':
         version_info = ['', '']
 
     print("started running", file=sys.stderr)
+    print(sys.platform.python_version(), file=sys.stderr)
     parser = ArgumentParser(
         description='HISAT-Genotype %s (Built on HISAT2 %s)' \
             % (version_info[1], version_info[0]),

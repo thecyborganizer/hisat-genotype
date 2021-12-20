@@ -477,7 +477,9 @@ def typing(simulation,
                                                   stdout = subprocess.PIPE,
                                                   stderr = open("/dev/null", 'w'))
 
-            print("3----------------{}------------- module".format(alignview_proc.stdout), file=sys.stderr)
+            print("4--{}--".format(alignview_proc.stdout))
+            for line in alignview_proc.stdout.read():
+                print("3--{}--".format(line), file=sys.stderr)
             # List of nodes that represent alleles
             allele_vars = {}
             for _, var_id in gene_var_list:
