@@ -288,7 +288,7 @@ def typing(simulation,
     complete    = {"Init Align"    : False,
                    "Locus Process" : False,
                    "Align Return"  : False} # list of completed tasks
-    print("got here a");
+    print("got here a", file=sys.stderr);
     base_fname  = full_path_base_fname.split("/")[-1]
     core_fid    = "" # May add to bottom of options
     report_base = '%s/%s-%s.' % (out_dir, output_base, base_fname)
@@ -431,10 +431,10 @@ def typing(simulation,
                 gene_var_list.insert(var_idx, [var_pos, var_id])                
                 return var_id, novel_var_count + 1
 
-            print("got here 1")
+            print("got here 1", file=sys.stderr)
             if not os.path.exists(alignment_fname + ".bai"):
                 os.system("samtools index %s" % alignment_fname)
-            print("got here 2")
+            print("got here 2", file=sys.stderr)
             # Read alignments
             alignview_cmd = ["samtools", "view", alignment_fname]
             base_locus = 0
@@ -458,7 +458,7 @@ def typing(simulation,
                 else:
                     pair_interdist = None
 
-                print("1----------------{}------------- module".format(alignview_cmd))
+                print("1----------------{}------------- module".format(alignview_cmd), file=sys.stderr)
                 bamview_proc = subprocess.Popen(alignview_cmd,
                                                 universal_newlines = True,
                                                 stdout = subprocess.PIPE,
@@ -471,13 +471,13 @@ def typing(simulation,
                                                   stdout = subprocess.PIPE,
                                                   stderr = open("/dev/null", 'w'))
             else:
-                print("2----------------{}------------- module".format(alignview_cmd))
+                print("2----------------{}------------- module".format(alignview_cmd), file=sys.stderr)
                 alignview_proc = subprocess.Popen(alignview_cmd,
                                                   universal_newlines = True,
                                                   stdout = subprocess.PIPE,
                                                   stderr = open("/dev/null", 'w'))
 
-            print("3----------------{}------------- module".format(alignview_proc.stdout))
+            print("3----------------{}------------- module".format(alignview_proc.stdout), file=sys.stderr)
             # List of nodes that represent alleles
             allele_vars = {}
             for _, var_id in gene_var_list:
